@@ -1,235 +1,436 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q Cube LLP | CX, CPQ & Enterprise Transformation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            dark: '#050505',
-                            card: '#0F0F0F',
-                            accent: '#2DD4BF', // Cyber Teal
-                            purple: '#8B5CF6'  // Innovation Purple
-                        }
-                    },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q Cube LLP | CX, CPQ & Enterprise Transformation</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Alpine JS -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#050505',
+              card: '#0F0F0F',
+              accent: '#2DD4BF',
+              purple: '#8B5CF6'
             }
+          },
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
         }
-    </script>
-    <style>
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .text-gradient { background: linear-gradient(to right, #2DD4BF, #8B5CF6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .bento-card { @apply bg-brand-card border border-white/5 rounded-[2.5rem] p-8 transition-all duration-500 hover:border-brand-accent/50 hover:-translate-y-2; }
-    </style>
+      }
+    }
+  </script>
+
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .text-gradient {
+      background: linear-gradient(to right, #2DD4BF, #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bento-card {
+      background: #0F0F0F;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 2.5rem;
+      padding: 2rem;
+      transition: all 0.5s ease;
+    }
+    .bento-card:hover {
+      border-color: rgba(45, 212, 191, 0.5);
+      transform: translateY(-8px);
+    }
+
+    .tabfade {
+      animation: tabfade 0.25s ease;
+    }
+    @keyframes tabfade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-spin-slow {
+      animation: spin 4s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-<body class="bg-brand-dark text-white antialiased" x-data="{ mobileMenu: false, activeTab: 'all' }">
 
-    <nav class="fixed top-0 w-full z-50 px-6 py-4">
-        <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2 group cursor-pointer">
-                <div class="w-10 h-10 bg-gradient-to-br from-brand-accent to-brand-purple rounded-xl flex items-center justify-center font-black text-white text-xl shadow-lg shadow-brand-accent/20">Q</div>
-                <span class="text-xl font-extrabold tracking-tighter">Q CUBE <span class="text-brand-accent font-light">LLP</span></span>
-            </div>
+<body class="bg-brand-dark text-white antialiased"
+      x-data="{
+        mobileMenu: false,
+        activeServiceTab: 'all',
+        activeProjectTab: 'all'
+      }">
 
-            <div class="hidden md:flex gap-10 text-sm font-semibold tracking-wide uppercase">
-                <a href="#home" class="hover:text-brand-accent transition">Home</a>
-                <a href="#about" class="hover:text-brand-accent transition">About</a>
-                <a href="#services" class="hover:text-brand-accent transition">Services</a>
-                <a href="#projects" class="hover:text-brand-accent transition">Projects</a>
-            </div>
+  <!-- NAV -->
+  <nav class="fixed top-0 w-full z-50 px-6 py-4">
+    <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex justify-between items-center">
 
-            <a href="#contact" class="hidden md:block bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold hover:bg-brand-accent transition-all">Let's Connect</a>
+      <!-- LOGO ONLY (0.5 x 1.0 inch + rounded corners) -->
+      <a href="#home" class="flex items-center cursor-pointer">
+        <img
+          src="assets/logo.png"
+          alt="Q Cube LLP Logo"
+          style="width:1.55in; height:.5in;"
+          class="object-contain rounded-xl bg-white/5 p-1"
+        />
+      </a>
 
-            <button @click="mobileMenu = !mobileMenu" class="md:hidden text-white"><i data-lucide="menu"></i></button>
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex gap-10 text-sm font-semibold tracking-wide uppercase">
+        <a href="#home" class="hover:text-brand-accent transition">Home</a>
+        <a href="#about" class="hover:text-brand-accent transition">About</a>
+        <a href="#services" class="hover:text-brand-accent transition">Services</a>
+        <a href="#projects" class="hover:text-brand-accent transition">Projects</a>
+        <a href="#contact" class="hover:text-brand-accent transition">Contact</a>
+      </div>
+
+      <!-- Button -->
+      <a href="#contact"
+         class="hidden md:block bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold hover:bg-brand-accent transition-all">
+        Let's Connect
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button @click="mobileMenu = !mobileMenu" class="md:hidden text-white">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenu" class="fixed inset-0 bg-brand-dark z-50 p-8 md:hidden" x-transition>
+      <div class="flex justify-end">
+        <button @click="mobileMenu = false"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="flex flex-col gap-8 mt-12 text-4xl font-bold">
+        <a href="#home" @click="mobileMenu = false">Home</a>
+        <a href="#about" @click="mobileMenu = false">About</a>
+        <a href="#services" @click="mobileMenu = false">Services</a>
+        <a href="#projects" @click="mobileMenu = false">Projects</a>
+        <a href="#contact" @click="mobileMenu = false" class="text-brand-accent">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="relative pt-44 pb-32 px-6 overflow-hidden">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+      <div class="absolute top-[-10%] left-[10%] w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px]"></div>
+      <div class="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-brand-purple/10 rounded-full blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-bold tracking-widest text-brand-accent mb-8">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
+        </span>
+        SCALABLE ENTERPRISE SOLUTIONS
+      </div>
+
+      <h1 class="text-6xl md:text-9xl font-extrabold tracking-tighter leading-none mb-8">
+        Mastering the <br> <span class="text-gradient italic">Dimensions</span> of Tech.
+      </h1>
+
+      <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+        Q Cube LLP synchronizes high-scale Customer Experience strategies with precision CPQ implementations to drive your digital transformation.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="#contact"
+           class="w-full sm:w-auto bg-brand-accent text-black px-10 py-5 rounded-2xl font-black text-lg hover:scale-105 transition-transform shadow-xl shadow-brand-accent/20">
+          Get Started
+        </a>
+        <a href="#services"
+           class="w-full sm:w-auto glass px-10 py-5 rounded-2xl font-bold hover:bg-white/10 transition">
+          Our Expertise
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto border-t border-white/10 pt-24 grid md:grid-cols-2 gap-20 items-center">
+      <div>
+        <h2 class="text-4xl md:text-5xl font-extrabold mb-8 tracking-tight">
+          The Core of <br><span class="text-brand-accent italic">Q Cube LLP.</span>
+        </h2>
+        <p class="text-gray-400 text-lg mb-8">
+          We don't just build software; we engineer growth. Our multidisciplinary team bridges the gap between complex backend logic and beautiful user experiences.
+        </p>
+
+        <div class="grid grid-cols-2 gap-8">
+          <div class="p-6 rounded-3xl glass border-brand-accent/20">
+            <div class="text-4xl font-black text-brand-accent mb-2">99.9%</div>
+            <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Logic Accuracy</div>
+          </div>
+          <div class="p-6 rounded-3xl glass border-brand-purple/20">
+            <div class="text-4xl font-black text-brand-purple mb-2">24/7</div>
+            <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Global Support</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="rounded-[3rem] overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-700 aspect-square">
+          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80"
+               alt="Tech"
+               class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="py-24 px-6 bg-brand-card/50">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
+        <div>
+          <h2 class="text-5xl font-extrabold mb-3">Strategic Pillars</h2>
+          <p class="text-brand-accent font-bold uppercase tracking-widest">Everything you need to scale</p>
         </div>
 
-        <div x-show="mobileMenu" class="fixed inset-0 bg-brand-dark z-50 p-8 md:hidden" x-transition>
-            <div class="flex justify-end"><button @click="mobileMenu = false"><i data-lucide="x"></i></button></div>
-            <div class="flex flex-col gap-8 mt-12 text-4xl font-bold">
-                <a href="#home" @click="mobileMenu = false">Home</a>
-                <a href="#about" @click="mobileMenu = false">About</a>
-                <a href="#services" @click="mobileMenu = false">Services</a>
-                <a href="#projects" @click="mobileMenu = false">Projects</a>
-                <a href="#contact" @click="mobileMenu = false" class="text-brand-accent">Contact</a>
-            </div>
+        <div class="flex flex-wrap gap-3 glass p-2 rounded-2xl">
+          <button @click="activeServiceTab='all'" :class="activeServiceTab==='all' ? 'bg-brand-accent text-black' : ''"
+                  class="px-5 py-2 rounded-xl text-sm font-bold transition">All</button>
+          <button @click="activeServiceTab='cx'" :class="activeServiceTab==='cx' ? 'bg-brand-accent text-black' : ''"
+                  class="px-5 py-2 rounded-xl text-sm font-bold transition">CX</button>
+          <button @click="activeServiceTab='cpq'" :class="activeServiceTab==='cpq' ? 'bg-brand-accent text-black' : ''"
+                  class="px-5 py-2 rounded-xl text-sm font-bold transition">CPQ</button>
+          <button @click="activeServiceTab='it'" :class="activeServiceTab==='it' ? 'bg-brand-accent text-black' : ''"
+                  class="px-5 py-2 rounded-xl text-sm font-bold transition">IT Services</button>
+          <button @click="activeServiceTab='integration'" :class="activeServiceTab==='integration' ? 'bg-brand-accent text-black' : ''"
+                  class="px-5 py-2 rounded-xl text-sm font-bold transition">Integration</button>
         </div>
-    </nav>
+      </div>
 
-    <section id="home" class="relative pt-44 pb-32 px-6 overflow-hidden">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
-            <div class="absolute top-[-10%] left-[10%] w-[500px] h-[500px] bg-brand-accent/10 rounded-full blur-[120px]"></div>
-            <div class="absolute bottom-0 right-[10%] w-[400px] h-[400px] bg-brand-purple/10 rounded-full blur-[120px]"></div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div x-show="activeServiceTab==='all' || activeServiceTab==='cx'" x-transition class="bento-card md:col-span-2 group tabfade">
+          <i data-lucide="heart" class="text-brand-accent mb-6 w-12 h-12"></i>
+          <h3 class="text-3xl font-bold mb-4">CX Strategy & Design</h3>
+          <p class="text-gray-400 text-lg mb-6">
+            User journeys that drive conversion. We build human-centric interfaces for complex digital ecosystems.
+          </p>
         </div>
 
-        <div class="max-w-7xl mx-auto text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-bold tracking-widest text-brand-accent mb-8">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
-                </span>
-                SCALABLE ENTERPRISE SOLUTIONS
-            </div>
-            <h1 class="text-6xl md:text-9xl font-extrabold tracking-tighter leading-none mb-8">
-                Mastering the <br> <span class="text-gradient italic">Dimensions</span> of Tech.
-            </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
-                Q Cube LLP synchronizes high-scale Customer Experience strategies with precision CPQ implementations to drive your digital transformation.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#contact" class="w-full sm:w-auto bg-brand-accent text-black px-10 py-5 rounded-2xl font-black text-lg hover:scale-105 transition-transform shadow-xl shadow-brand-accent/20">Get Started</a>
-                <a href="#services" class="w-full sm:w-auto glass px-10 py-5 rounded-2xl font-bold hover:bg-white/10 transition">Our Expertise</a>
-            </div>
+        <div x-show="activeServiceTab==='all' || activeServiceTab==='cpq'" x-transition class="bento-card bg-gradient-to-br from-brand-purple/20 to-transparent tabfade">
+          <i data-lucide="settings" class="text-brand-purple mb-6 w-12 h-12"></i>
+          <h3 class="text-2xl font-bold mb-4">CPQ Implementation</h3>
+          <p class="text-gray-400">Configure, Price, Quote. We automate your complex sales logic with accuracy.</p>
         </div>
-    </section>
 
-    <section id="about" class="py-24 px-6">
-        <div class="max-w-7xl mx-auto border-t border-white/10 pt-24 grid md:grid-cols-2 gap-20 items-center">
+        <div x-show="activeServiceTab==='all' || activeServiceTab==='it'" x-transition class="bento-card tabfade">
+          <i data-lucide="layers" class="text-blue-400 mb-6 w-12 h-12"></i>
+          <h3 class="text-2xl font-bold mb-4">IT Services</h3>
+          <p class="text-gray-400">Cloud migration, modernization, and managed services for enterprises.</p>
+        </div>
+
+        <div x-show="activeServiceTab==='all' || activeServiceTab==='integration'" x-transition class="bento-card md:col-span-2 flex flex-col md:flex-row gap-8 items-center tabfade">
+          <div class="flex-1">
+            <h3 class="text-3xl font-bold mb-4">Data Integration</h3>
+            <p class="text-gray-400 italic">Connecting CRM to ERP for a single source of truth.</p>
+          </div>
+          <div class="w-full md:w-48 h-32 glass rounded-2xl flex items-center justify-center">
+            <i data-lucide="refresh-cw" class="w-12 h-12 text-brand-accent animate-spin-slow"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <h2 class="text-5xl font-extrabold">Selected <br>Case Studies</h2>
+
+        <div class="flex gap-4 glass p-2 rounded-2xl flex-wrap">
+          <button @click="activeProjectTab='all'" :class="activeProjectTab==='all' ? 'bg-brand-accent text-black' : ''"
+                  class="px-6 py-2 rounded-xl text-sm font-bold transition">All</button>
+          <button @click="activeProjectTab='cx'" :class="activeProjectTab==='cx' ? 'bg-brand-accent text-black' : ''"
+                  class="px-6 py-2 rounded-xl text-sm font-bold transition">CX</button>
+          <button @click="activeProjectTab='cpq'" :class="activeProjectTab==='cpq' ? 'bg-brand-accent text-black' : ''"
+                  class="px-6 py-2 rounded-xl text-sm font-bold transition">CPQ</button>
+          <button @click="activeProjectTab='services'" :class="activeProjectTab==='services' ? 'bg-brand-accent text-black' : ''"
+                  class="px-6 py-2 rounded-xl text-sm font-bold transition">Services</button>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-10">
+
+        <div x-show="activeProjectTab==='all' || activeProjectTab==='cx'"
+             class="glass rounded-[3rem] p-10 hover:border-brand-accent transition-all group overflow-hidden tabfade" x-transition>
+          <span class="text-brand-accent font-mono">01 / FINTECH</span>
+          <h4 class="text-4xl font-bold my-4">Global Onboarding CX</h4>
+          <p class="text-gray-400 mb-8">Reduced customer drop-off by 60% through journey overhaul.</p>
+          <div class="h-48 rounded-2xl bg-white/5 border border-white/10"></div>
+        </div>
+
+        <div x-show="activeProjectTab==='all' || activeProjectTab==='cpq'"
+             class="glass rounded-[3rem] p-10 hover:border-brand-purple transition-all group overflow-hidden tabfade" x-transition>
+          <span class="text-brand-purple font-mono">02 / LOGISTICS</span>
+          <h4 class="text-4xl font-bold my-4">Enterprise CPQ Logic</h4>
+          <p class="text-gray-400 mb-8">Automated pricing for millions of SKU combinations.</p>
+          <div class="h-48 rounded-2xl bg-white/5 border border-white/10"></div>
+        </div>
+
+        <div x-show="activeProjectTab==='all' || activeProjectTab==='services'"
+             class="glass rounded-[3rem] p-10 hover:border-white/20 transition-all group overflow-hidden tabfade" x-transition>
+          <span class="text-gray-300 font-mono">03 / ENTERPRISE</span>
+          <h4 class="text-4xl font-bold my-4">24/7 Managed Services</h4>
+          <p class="text-gray-400 mb-8">Proactive monitoring and rapid support delivery.</p>
+          <div class="h-48 rounded-2xl bg-white/5 border border-white/10"></div>
+        </div>
+
+        <div x-show="activeProjectTab==='all' || activeProjectTab==='cx'"
+             class="glass rounded-[3rem] p-10 hover:border-brand-accent transition-all group overflow-hidden tabfade" x-transition>
+          <span class="text-brand-accent font-mono">04 / RETAIL</span>
+          <h4 class="text-4xl font-bold my-4">Omnichannel Service Desk</h4>
+          <p class="text-gray-400 mb-8">Unified workflows to improve resolution time.</p>
+          <div class="h-48 rounded-2xl bg-white/5 border border-white/10"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT US (EMAIL, PHONE, ADDRESS) -->
+  <section id="contact" class="py-24 px-6 max-w-5xl mx-auto">
+    <div class="bg-gradient-to-br from-brand-card to-brand-dark border border-white/10 rounded-[4rem] p-10 md:p-16 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/10 rounded-full blur-[100px]"></div>
+
+      <h2 class="text-5xl font-extrabold mb-10 text-center tracking-tighter">
+        Contact <span class="text-brand-accent">Us</span>
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-10 relative z-10">
+
+        <!-- Contact Details -->
+        <div class="glass rounded-3xl p-8">
+          <h3 class="text-2xl font-bold mb-6">Reach Q Cube LLP</h3>
+
+          <div class="space-y-5 text-gray-300">
+            <div class="flex gap-4 items-start">
+              <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <i data-lucide="mail" class="w-5 h-5 text-brand-accent"></i>
+              </div>
+              <div>
+                <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Email</div>
+                <a href="mailto:info@qcube.com" class="font-semibold hover:text-brand-accent transition">
+                  info@qcube.com
+                </a>
+              </div>
+            </div>
+
+            <div class="flex gap-4 items-start">
+              <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <i data-lucide="phone" class="w-5 h-5 text-brand-accent"></i>
+              </div>
+              <div>
+                <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Phone</div>
+                <a href="tel:+919999999999" class="font-semibold hover:text-brand-accent transition">
+                  +91 99999 99999
+                </a>
+              </div>
+            </div>
+
+            <div class="flex gap-4 items-start">
+              <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
+                <i data-lucide="map-pin" class="w-5 h-5 text-brand-accent"></i>
+              </div>
+              <div>
+                <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Address</div>
+                <div class="font-semibold">
+                  Q Cube LLP, Business Park,<br/>
+                  Bengaluru, Karnataka, India
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 p-4 rounded-2xl bg-white/5 border border-white/10 text-sm text-gray-300">
+            💡 We usually respond within <b>24 hours</b>.
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="glass rounded-3xl p-8">
+          <h3 class="text-2xl font-bold mb-6">Send a Message</h3>
+
+          <form class="space-y-6"
+                onsubmit="event.preventDefault(); alert('Message Sent Successfully!');">
             <div>
-                <h2 class="text-4xl md:text-5xl font-extrabold mb-8 tracking-tight">The Core of <br><span class="text-brand-accent italic">Q Cube LLP.</span></h2>
-                <p class="text-gray-400 text-lg mb-8">We don't just build software; we engineer growth. Our multidisciplinary team bridges the gap between complex backend logic and beautiful user experiences.</p>
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="p-6 rounded-3xl glass border-brand-accent/20">
-                        <div class="text-4xl font-black text-brand-accent mb-2">99.9%</div>
-                        <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Logic Accuracy</div>
-                    </div>
-                    <div class="p-6 rounded-3xl glass border-brand-purple/20">
-                        <div class="text-4xl font-black text-brand-purple mb-2">24/7</div>
-                        <div class="text-sm uppercase tracking-widest text-gray-500 font-bold">Global Support</div>
-                    </div>
-                </div>
-            </div>
-            <div class="relative">
-                <div class="rounded-[3rem] overflow-hidden rotate-3 hover:rotate-0 transition-transform duration-700 aspect-square">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80" alt="Tech" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="services" class="py-24 px-6 bg-brand-card/50">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16">
-                <h2 class="text-5xl font-extrabold mb-4">Strategic Pillars</h2>
-                <p class="text-brand-accent font-bold uppercase tracking-widest">Everything you need to scale</p>
+              <label class="text-xs font-bold text-gray-500 uppercase">Your Name</label>
+              <input type="text" required placeholder="Your Name"
+                     class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-4 focus:outline-none focus:border-brand-accent transition-colors">
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bento-card md:col-span-2 group">
-                    <i data-lucide="heart" class="text-brand-accent mb-6 w-12 h-12"></i>
-                    <h3 class="text-3xl font-bold mb-4">CX Strategy & Design</h3>
-                    <p class="text-gray-400 text-lg mb-6">User journeys that drive conversion. We build human-centric interfaces for complex digital ecosystems.</p>
-                    <div class="flex gap-2">
-                        <span class="text-[10px] border border-white/10 px-3 py-1 rounded-full uppercase font-bold">UI/UX</span>
-                        <span class="text-[10px] border border-white/10 px-3 py-1 rounded-full uppercase font-bold">Loyalty</span>
-                    </div>
-                </div>
-
-                <div class="bento-card bg-gradient-to-br from-brand-purple/20 to-transparent">
-                    <i data-lucide="settings" class="text-brand-purple mb-6 w-12 h-12"></i>
-                    <h3 class="text-2xl font-bold mb-4">CPQ Implementation</h3>
-                    <p class="text-gray-400">Configure, Price, Quote. We automate your most complex sales logic with zero room for error.</p>
-                </div>
-
-                <div class="bento-card">
-                    <i data-lucide="layers" class="text-blue-400 mb-6 w-12 h-12"></i>
-                    <h3 class="text-2xl font-bold mb-4">IT Services</h3>
-                    <p class="text-gray-400">Cloud migration, legacy modernization, and 24/7 managed services for the enterprise.</p>
-                </div>
-
-                <div class="bento-card md:col-span-2 flex flex-col md:flex-row gap-8 items-center">
-                    <div class="flex-1">
-                        <h3 class="text-3xl font-bold mb-4">Data Integration</h3>
-                        <p class="text-gray-400 italic">Seamlessly connecting CRM to ERP for a single source of truth across your entire organization.</p>
-                    </div>
-                    <div class="w-full md:w-48 h-32 glass rounded-2xl flex items-center justify-center">
-                        <i data-lucide="refresh-cw" class="w-12 h-12 text-brand-accent animate-spin-slow"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-24 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <h2 class="text-5xl font-extrabold">Selected <br>Case Studies</h2>
-                <div class="flex gap-4 glass p-2 rounded-2xl">
-                    <button @click="activeTab = 'all'" :class="activeTab === 'all' ? 'bg-brand-accent text-black' : ''" class="px-6 py-2 rounded-xl text-sm font-bold transition">All</button>
-                    <button @click="activeTab = 'cx'" :class="activeTab === 'cx' ? 'bg-brand-accent text-black' : ''" class="px-6 py-2 rounded-xl text-sm font-bold transition">CX</button>
-                    <button @click="activeTab = 'cpq'" :class="activeTab === 'cpq' ? 'bg-brand-accent text-black' : ''" class="px-6 py-2 rounded-xl text-sm font-bold transition">CPQ</button>
-                </div>
+            <div>
+              <label class="text-xs font-bold text-gray-500 uppercase">Email</label>
+              <input type="email" required placeholder="your@email.com"
+                     class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-4 focus:outline-none focus:border-brand-accent transition-colors">
             </div>
 
-            <div class="grid md:grid-cols-2 gap-10">
-                <div x-show="activeTab === 'all' || activeTab === 'cx'" class="glass rounded-[3rem] p-10 hover:border-brand-accent transition-all group overflow-hidden" x-transition>
-                    <span class="text-brand-accent font-mono">01 / FINTECH</span>
-                    <h4 class="text-4xl font-bold my-4">Global Onboarding CX</h4>
-                    <p class="text-gray-400 mb-8">Reduced customer drop-off by 60% through a custom journey overhaul.</p>
-                    <div class="h-48 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-brand-accent/5 transition-all"></div>
-                </div>
-                <div x-show="activeTab === 'all' || activeTab === 'cpq'" class="glass rounded-[3rem] p-10 hover:border-brand-purple transition-all group overflow-hidden" x-transition>
-                    <span class="text-brand-purple font-mono">02 / LOGISTICS</span>
-                    <h4 class="text-4xl font-bold my-4">Enterprise CPQ Logic</h4>
-                    <p class="text-gray-400 mb-8">Automated pricing for 10M+ SKU combinations across 40 countries.</p>
-                    <div class="h-48 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-brand-purple/5 transition-all"></div>
-                </div>
+            <div>
+              <label class="text-xs font-bold text-gray-500 uppercase">Message</label>
+              <textarea required rows="4" placeholder="Tell us your requirement..."
+                        class="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 px-4 py-4 focus:outline-none focus:border-brand-accent transition-colors"></textarea>
             </div>
-        </div>
-    </section>
 
-    <section id="contact" class="py-24 px-6 max-w-4xl mx-auto">
-        <div class="bg-gradient-to-br from-brand-card to-brand-dark border border-white/10 rounded-[4rem] p-12 md:p-20 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-accent/10 rounded-full blur-[100px]"></div>
-            <h2 class="text-5xl font-extrabold mb-8 text-center tracking-tighter">Ready to <span class="text-brand-accent">Cube?</span></h2>
-            <form class="space-y-8 relative z-10" onsubmit="event.preventDefault(); alert('Message Sent Successfully!');">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <label class="text-xs font-bold text-gray-500 uppercase">Your Name</label>
-                        <input type="text" placeholder="John Doe" class="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:outline-none focus:border-brand-accent transition-colors">
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-xs font-bold text-gray-500 uppercase">Email Address</label>
-                        <input type="email" placeholder="john@qcube.com" class="w-full bg-white/5 border-b border-white/20 px-0 py-4 focus:outline-none focus:border-brand-accent transition-colors">
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <label class="text-xs font-bold text-gray-500 uppercase">Service Interested In</label>
-                    <select class="w-full bg-brand-card border-b border-white/20 px-0 py-4 focus:outline-none focus:border-brand-accent text-gray-400">
-                        <option>CX Strategy</option>
-                        <option>CPQ Implementation</option>
-                        <option>Digital Services</option>
-                    </select>
-                </div>
-                <button type="submit" class="w-full bg-white text-black py-6 rounded-2xl font-black text-xl hover:bg-brand-accent transition-all">Launch Inquiry</button>
-            </form>
+            <button type="submit"
+                    class="w-full bg-white text-black py-5 rounded-2xl font-black text-lg hover:bg-brand-accent transition-all">
+              Send Message
+            </button>
+          </form>
         </div>
-    </section>
 
-    <footer class="py-20 px-6 border-t border-white/10 text-center">
-        <div class="flex items-center justify-center gap-2 mb-8">
-            <div class="w-8 h-8 bg-brand-accent rounded-lg flex items-center justify-center font-bold text-black text-sm">Q</div>
-            <span class="text-xl font-bold tracking-tighter">Q CUBE LLP</span>
-        </div>
-        <div class="flex justify-center gap-10 text-gray-500 font-bold text-sm mb-12">
-            <a href="#" class="hover:text-white transition">LINKEDIN</a>
-            <a href="#" class="hover:text-white transition">TWITTER</a>
-            <a href="#" class="hover:text-white transition">DRIBBBLE</a>
-        </div>
-        <p class="text-gray-600 text-xs tracking-widest uppercase">© 2026 Q Cube LLP. Precision Engineered.</p>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        lucide.createIcons();
-    </script>
+  <!-- FOOTER -->
+  <footer class="py-16 px-6 border-t border-white/10 text-center">
+    <div class="flex items-center justify-center gap-2 mb-6">
+      <img src="assets/logo.png" alt="Logo"
+           style="width:0.7in;height:0.5in;"
+           class="object-contain rounded-xl bg-white/5 p-1" />
+    </div>
+
+    <p class="text-gray-600 text-xs tracking-widest uppercase">
+      © 2026 Q Cube LLP. All Rights Reserved.
+    </p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
 </body>
 </html>
